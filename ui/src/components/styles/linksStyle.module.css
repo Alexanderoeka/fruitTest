@@ -1,0 +1,23 @@
+
+.linkGroup{
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
+
+.linkButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 30px;
+    background-color: black;
+    text-decoration: none;
+    margin:5px;
+    border-radius: 4px;
+    color: green;
+}

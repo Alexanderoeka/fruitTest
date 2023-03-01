@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "outDir": "./build",
+    "target": "es2018",
     "lib": [
       "dom",
       "dom.iterable",

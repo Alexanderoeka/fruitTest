@@ -1,0 +1,10 @@
+
+
+.box{
+    width: 700px;
+    height: 400px;
+    background-color: black;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
