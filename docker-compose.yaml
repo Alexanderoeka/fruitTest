@@ -1,0 +1,60 @@
+version: "3"
+services:
+
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+      XDEBUG_CONFIG: discover_client_host=true client_host=172.17.0.1 log_level=0
+#      PHP_IDE_CONFIG: serverName=localhost
+    volumes:
+      - ./api:/app/api
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    working_dir: /app/api
+
+  nodefru:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    volumes:
+      - ./ui:/app/ui
+    ports:
+      - 5000:3000
+
+  nginxfru:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    depends_on:
+      - php
+      - nodefru
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./api:/app/api
+      - ./ui:/app/ui
+    restart: always
+    ports:
+      - 80:80
+
+  dbfru:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: sm_user
+      POSTGRES_PASSWORD: passwordo
+      PGDATA: /var/lib/postgresql/data
+    #    shm_size: 1g
+    #    env_file: api/.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+
+volumes:
+  db_data:
