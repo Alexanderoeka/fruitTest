@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Fruits from "../pages/Fruits";
-import FavoriteFruits from "../pages/FavoriteFruits";
+import FruitsPage from "../pages/FruitsPage";
+import FavoriteFruitsPage from "../pages/FavoriteFruitsPage";
 import Links from "../components/Links";
 
 export default function Routing() {
@@ -9,9 +9,9 @@ export default function Routing() {
         <Router>
             <Links/>
             <Routes>
-                <Route path="/" element={<Fruits/>}/>
-                <Route path="/fruits" element={<Fruits/>}/>
-                <Route path="/favoriteFruits" element={<FavoriteFruits/>}/>
+                <Route path="/" element={<FruitsPage/>}/>
+                <Route path="/fruits" element={<FruitsPage/>}/>
+                <Route path="/favoriteFruits" element={<FavoriteFruitsPage/>}/>
             </Routes>
         </Router>
     );
