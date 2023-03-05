@@ -4,6 +4,7 @@
 namespace App\Common\Command;
 
 
+use App\Common\EmailSender;
 use App\Service\FruitService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +14,18 @@ class GetFruitsCommand extends Command
 {
     private FruitService $fruitService;
 
-    public function __construct(FruitService $fruitService, string $name = null)
+    private EmailSender $emailSender;
+
+    public function __construct(
+        FruitService $fruitService,
+        EmailSender $emailSender,
+        string $name = null
+    )
     {
         parent::__construct($name);
 
         $this->fruitService = $fruitService;
+        $this->emailSender = $emailSender;
     }
 
     protected function configure()
@@ -32,7 +40,19 @@ class GetFruitsCommand extends Command
 
         $result = $this->fruitService->getFruitsFromSite();
 
-        $output->writeln(json_encode($result));
+        $output->writeln('FINISHED TO DATABASE');
+
+        $output->writeln('PROCESS SENDING EMAIL');
+
+        $textSubject = 'Fruits is loaded';
+
+        $bodyHtml = '<p>OMG! There are already here!!!!!! AA<p>';
+
+        $emailResult = $this->emailSender->sendEmail('someOne@mail.ru', 'someTwo@mail.ru', $textSubject, $bodyHtml);
+
+        $output->writeln("EMAIL SENT RESULT : $emailResult");
+
+
         return 0;
     }
 
