@@ -22,8 +22,15 @@ RUN apt-get update && \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+
+#RUN sudo composer update
+RUN mkdir -p -m 777 /tmp/composer
+ENV COMPOSER_HOME=/tmp/composer
 
 COPY docker/php/xdebug.ini "${PHP_INI_DIR}/conf.d"
 
 EXPOSE 9000
+

@@ -27,7 +27,7 @@ class FruitDto extends BaseDto
         $this->family = $this->getValue('family');
         $this->fruitOrder = $this->getValue('order');
         $this->nutritionId = $this->getValue('nutritionId');
-        $this->favorite = $this->getValue('favorite');
+        $this->favorite = $this->getValue('favorite') ?? false;
     }
 
 

@@ -1,15 +1,10 @@
 FROM node:19-alpine
 
 
-WORKDIR /app/ui
-
-
-COPY ui/package*.json ./
-
+COPY ui/package.json ./
+COPY ui/package-lock.json ./
 
 RUN npm install
-
-COPY . .
 
 EXPOSE 3000
 

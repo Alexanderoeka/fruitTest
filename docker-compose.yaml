@@ -37,6 +37,8 @@ services:
       - ./ui:/app/ui
     ports:
       - 3000:3000
+    working_dir: /app/ui
+
 
   nginx:
     build:

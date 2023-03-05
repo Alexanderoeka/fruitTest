@@ -148,6 +148,7 @@ class FruitService
         $fruit->setGenus($dto->genus);
         $fruit->setFruitOrder($dto->fruitOrder);
         $fruit->setNutrition($nutrition);
+        $fruit->setFavorite($dto->favorite);
 
         $this->fruitRepository->save($fruit);
 
