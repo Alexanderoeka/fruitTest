@@ -15,6 +15,7 @@ class FruitDto extends BaseDto
     public ?string $family;
     public ?string $fruitOrder;
     public ?string $nutritionId;
+    public ?string $favorite;
 
     public function __construct(RequestStack|array $request)
     {
@@ -26,6 +27,7 @@ class FruitDto extends BaseDto
         $this->family = $this->getValue('family');
         $this->fruitOrder = $this->getValue('order');
         $this->nutritionId = $this->getValue('nutritionId');
+        $this->favorite = $this->getValue('favorite');
     }
 
 

@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Common\CollectionTransformer;
 use App\Common\SearchDto;
 use App\Dto\FruitDto;
 use App\Dto\NutritionDto;
@@ -11,7 +12,11 @@ use App\Entity\Fruit;
 use App\Entity\Nutrition;
 use App\Repository\FruitRepository;
 use App\Repository\NutritionRepository;
+use App\Transformer\FruitTransformer;
+use PhpParser\Node\Expr\Throw_;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Exception;
 
 class FruitService
 {
@@ -33,16 +38,49 @@ class FruitService
 
     public function searchFruits(SearchDto $dto)
     {
+        $count = $this->fruitRepository->countRows($dto->search);
+        $pages = ceil($count / $dto->perPage);
+//        if()
         $offset = ($dto->page - 1) * $dto->perPage;
         $result = $this->fruitRepository->getFruitsWithPaging($dto->search, $dto->order, $dto->orderBy, $offset, $dto->perPage);
-        return $result;
 
+
+        $pagination = [
+            'page' => $dto->page,
+            'perPage' => $dto->perPage,
+            'order' => $dto->order,
+            'orderBy' => $dto->orderBy,
+            'pages' => $pages,
+            'rows' => $count
+        ];
+
+        $data = CollectionTransformer::getData($result, new FruitTransformer());
+
+        return new JsonResponse(['data' => $data, 'success' => true, 'pagination' => $pagination]);
     }
 
-    public function searchFavoriteFruits()
+    public function searchFavoriteFruits(SearchDto $dto)
     {
+        $count = $this->fruitRepository->countRows($dto->search, true);
+        $pages = ceil($count / $dto->perPage);
+        $offset = ($dto->page - 1) * $dto->perPage;
+        $result = $this->fruitRepository->getFavoriteFruitsWithPaging($dto->search, $dto->order, $dto->orderBy, $offset, $dto->perPage);
 
+
+        $pagination = [
+            'page' => $dto->page,
+            'perPage' => $dto->perPage,
+            'order' => $dto->order,
+            'orderBy' => $dto->orderBy,
+            'pages' => $pages,
+            'rows' => $count
+        ];
+
+        $data = CollectionTransformer::getData($result, new FruitTransformer());
+
+        return new JsonResponse(['data' => $data, 'success' => true, 'pagination' => $pagination]);
     }
+
 
     public function setFavoriteFruit($id)
     {
@@ -52,6 +90,18 @@ class FruitService
     public function unsetFavoriteFruit($id)
     {
 
+    }
+
+    public function updateFruit(FruitDto $dto)
+    {
+        $fruit = $this->fruitRepository->find($dto->id);
+        if (!$fruit)
+            throw new Exception("This fruit with id : $dto->id doesnt exists");
+
+        $fruit->setFavorite($dto->favorite);
+
+        $this->fruitRepository->save($fruit, true);
+        return new JsonResponse(['success'=>true]);
     }
 
 

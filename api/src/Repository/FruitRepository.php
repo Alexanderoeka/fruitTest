@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\Fruit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Parameter;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -68,6 +70,7 @@ class FruitRepository extends ServiceEntityRepository
 
         if ($orderBy) {
             $orderBy = $this->getClassMetadata()->getColumnName($orderBy);
+//            $orderBy = 'fefeqfeq';
             $orderClause = " order by $orderBy $order ";
         }
 
@@ -83,13 +86,14 @@ class FruitRepository extends ServiceEntityRepository
 
 
         $sql = <<<SQL
-            select * from fruit f 
+            select * from fruit f
                 {$whereClause} {$orderClause} {$limitClause}
         SQL;
 
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
         $rsm->addRootEntityFromClassMetadata(Fruit::class, 'f');
 
+//        $d = 12/0;
 
 
         $query = $this->_em->createNativeQuery($sql, $rsm);
@@ -100,11 +104,96 @@ class FruitRepository extends ServiceEntityRepository
         return $result;
     }
 
-    public function getFavoriteFruitsWithPagging(string $search, string $order, string $orderBy, int $offset, int $limit)
+
+    public function getFavoriteFruitsWithPaging(?string $search, ?string $order, ?string $orderBy, ?int $offset, ?int $limit)
+    {
+
+
+        $params = new ArrayCollection();
+        $where []= " favorite = true";
+        $whereClause = '';
+        $orderClause = '';
+        $limitClause = '';
+
+
+
+
+        if ($search) {
+            $where[] = " name like '%' || :search || '%' ";
+            $params->add(new Parameter(':search', $search));
+        }
+
+        if ($orderBy) {
+            $orderBy = $this->getClassMetadata()->getColumnName($orderBy);
+//            $orderBy = 'fefeqfeq';
+            $orderClause = " order by $orderBy $order ";
+        }
+
+        if ($limit) {
+            $limitClause = " limit $limit ";
+            if ($offset)
+                $limitClause .= "offset $offset";
+        }
+
+        if ($where) {
+            $whereClause = ' where ' . implode(' and ', $where) . ' ';
+        }
+
+
+        $sql = <<<SQL
+            select * from fruit f
+                {$whereClause} {$orderClause} {$limitClause}
+        SQL;
+
+        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+        $rsm->addRootEntityFromClassMetadata(Fruit::class, 'f');
+
+//        $d = 12/0;
+
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameters($params);
+
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+
+    public function countRows(string $search, bool $favorite = false)
     {
         $params = new ArrayCollection();
+        $where = [];
+        $whereClause = '';
+
+        if ($search) {
+            $where[] = " name like '%' || :search || '%' ";
+            $params->add(new Parameter(':search', $search));
+        }
+
+        if ($favorite) {
+            $where[] = "f.favorite = :favorite ";
+            $params->add(new Parameter(':favorite', true, Types::BOOLEAN));
+        }
 
 
+        if ($where) {
+            $whereClause = ' where ' . implode(' and ', $where) . ' ';
+        }
+
+        $sql = <<<SQL
+            select count(*) as counts from fruit f
+                {$whereClause} 
+        SQL;
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('counts', 'counts', Types::INTEGER);
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameters($params);
+
+        $result = $query->getSingleScalarResult();
+        return $result;
     }
 
 }

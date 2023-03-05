@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import TableHeaderN from "./TableHeaderN";
-import {fruitType, SearchI} from "../../pages/FruitsPage";
+import {FruitI, fruitType, SearchI} from "../../pages/FruitsPage";
 import TableRowN from "./TableRowN";
 import g from '../parts/general.module.css';
 import ts from "../styles/tableStyle.module.css";
@@ -16,7 +16,9 @@ export interface ColumnI {
 }
 
 export interface SearchTableI extends Omit<SearchI, 'search'> {
-    tableData: any[]
+    tableData: any[],
+    refreshLocal: boolean,
+    rows: number
 }
 
 export interface SearchTParamsI {
@@ -30,13 +32,14 @@ export interface propsI {
     getTableData: (params: SearchTParamsI) => Promise<requestResult>,
     columnsTypes: ColumnI[],
     refresh?: boolean,
+    searchButton: boolean,
     search?: string | null,
-    onRowChange: (field: string, rowId: number) => (e: any) => void
+    onRowChange: (fruit: FruitI) => Promise<requestResult>
 }
 
 
 export default function TableNew(props: propsI) {
-    const {getTableData, columnsTypes, refresh} = props
+    const {getTableData, columnsTypes, refresh, searchButton, onRowChange} = props
 
     const [state, setState] = useState<SearchTableI>({
         page: 1,
@@ -44,12 +47,19 @@ export default function TableNew(props: propsI) {
         perPage: 10,
         order: 'asc',
         orderBy: null,
-        tableData: []
+        rows: 0,
+        tableData: [],
+        refreshLocal: false
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         getDataTable();
-    },[refresh])
+    }, [refresh, state.refreshLocal])
+
+    useEffect(() => {
+        handleChange('page', 1, false)
+        refreshAction();
+    }, [searchButton])
 
 
     const getDataTable = () => {
@@ -65,23 +75,65 @@ export default function TableNew(props: propsI) {
 
         getTableData(params).then(response => {
                 pr(response);
-                setState(prev=>({
+                setState(prev => ({
                     ...prev,
-                    tableData:response.data
+                    tableData: response.data,
+                    ...response.pagination
+
                 }))
             }
         );
 
     }
 
-    const handleChange = (field: string, value: any) => {
+    const handleRowChange = (field: string, rowId: number) => (e: any) => {
+
+        pr('CHANGE ROW')
+        let value = e.target?.value ?? e;
+
+        let changedRow = {...state.tableData[rowId]}
+        changedRow[field] = value
+
+        onRowChange(changedRow).then(response => {
+            if (response.success) {
+                setState(prev => {
+
+                    let newTableData = [...prev.tableData]
+                    newTableData[rowId] = changedRow;
+                    return ({
+                        ...prev,
+                        tableData: newTableData
+                    })
+                })
+            }
+        });
+    }
+
+    const refreshAction = () => {
+        setState(prev => ({
+            ...prev,
+            refreshLocal: !prev.refreshLocal
+        }))
+    }
+
+    const handleChange = (field: string, value: any, isRefresh: boolean = true) => {
         pr("field")
         pr(field)
         pr(value)
+        switch (field) {
+            case 'perPage':
+                let selection = (page - 1) * value;
+                if (state.rows < selection)
+                    handleChange('page', 1, false)
+                break;
+        }
         setState(prev => ({
             ...prev,
             [field]: value
         }));
+
+        if (isRefresh)
+            refreshAction();
     }
 
     useEffect(() => {
@@ -102,6 +154,7 @@ export default function TableNew(props: propsI) {
                 order: prev.order === 'asc' ? 'desc' : 'asc'
             })
         )
+        refreshAction();
     }
 
     const {page, perPage, pages, orderBy, order, tableData} = state
@@ -109,17 +162,20 @@ export default function TableNew(props: propsI) {
     return (
         <div className={ts.box}>
 
-            <table className={g.tableBeauty}>
-                <thead>
-                <TableHeaderN columnsTypes={columnsTypes} orderByColumn={orderByColumn} order={state.order}
-                              orderBy={state.orderBy}/>
-                </thead>
-                <tbody>
-                {tableData.map((row: any, idx) => {
-                    return <TableRowN onChange={props.onRowChange} id={idx} values={row} columnTypes={columnsTypes}/>
-                })}
-                </tbody>
-            </table>
+            <div className={g.tableScroll}>
+                <table className={g.tableBeauty}>
+                    <thead>
+                    <TableHeaderN columnsTypes={columnsTypes} orderByColumn={orderByColumn} order={state.order}
+                                  orderBy={state.orderBy}/>
+                    </thead>
+                    <tbody>
+                    {tableData.map((row: any, idx) => {
+                        return <TableRowN onChange={handleRowChange} id={idx} values={row}
+                                          columnTypes={columnsTypes}/>
+                    })}
+                    </tbody>
+                </table>
+            </div>
             <TablePaginate onChange={handleChange} page={page} pages={pages} perPage={perPage}/>
         </div>
     )

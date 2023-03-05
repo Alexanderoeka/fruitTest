@@ -1,9 +1,18 @@
 const address = 'http://localhost';
 
+export interface PaginationI {
+    page: number,
+    pages: number,
+    perPage: 10 | 30 | 50,
+    order: 'asc' | 'desc',
+    orderBy: string,
+}
+
 
 export interface requestResult {
     success: boolean,
     data: any,
+    pagination: PaginationI,
     message: string
 }
 

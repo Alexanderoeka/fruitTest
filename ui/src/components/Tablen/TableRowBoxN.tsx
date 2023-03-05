@@ -27,9 +27,9 @@ export default function TableRowBoxN(props: PropsI) {
     }
 
     return (
-        <td>
+        <>
             {td}
 
-        </td>
+        </>
     )
 }

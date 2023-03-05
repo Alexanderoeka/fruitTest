@@ -7,7 +7,7 @@ export const dataTable: fruitType[] = [
         "genus": "Citrus",
         "family": "Rutaceae",
         "fruitOrder": "Sapindales",
-        "isFavorite": true
+        "favorite": true
     },
     {
         "id": 181,
@@ -15,7 +15,7 @@ export const dataTable: fruitType[] = [
         "genus": "Vaccinium",
         "family": "Ericaceae",
         "fruitOrder": "Ericales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 182,
@@ -23,7 +23,7 @@ export const dataTable: fruitType[] = [
         "genus": "Litchi",
         "family": "Sapindaceae",
         "fruitOrder": "Sapindales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 183,
@@ -31,7 +31,7 @@ export const dataTable: fruitType[] = [
         "genus": "Mangifera",
         "family": "Anacardiaceae",
         "fruitOrder": "Sapindales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 184,
@@ -39,7 +39,7 @@ export const dataTable: fruitType[] = [
         "genus": "Cucumis",
         "family": "Cucurbitaceae",
         "fruitOrder": "Cucurbitaceae",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 185,
@@ -47,7 +47,7 @@ export const dataTable: fruitType[] = [
         "genus": "Morus",
         "family": "Moraceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 186,
@@ -55,7 +55,7 @@ export const dataTable: fruitType[] = [
         "genus": "Citrus",
         "family": "Rutaceae",
         "fruitOrder": "Sapindales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 187,
@@ -63,7 +63,7 @@ export const dataTable: fruitType[] = [
         "genus": "Carica",
         "family": "Caricaceae",
         "fruitOrder": "Caricacea",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 188,
@@ -71,7 +71,7 @@ export const dataTable: fruitType[] = [
         "genus": "Passiflora",
         "family": "Passifloraceae",
         "fruitOrder": "Malpighiales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 189,
@@ -79,7 +79,7 @@ export const dataTable: fruitType[] = [
         "genus": "Prunus",
         "family": "Rosaceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 190,
@@ -87,7 +87,7 @@ export const dataTable: fruitType[] = [
         "genus": "Pyrus",
         "family": "Rosaceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 191,
@@ -95,7 +95,7 @@ export const dataTable: fruitType[] = [
         "genus": "Diospyros",
         "family": "Ebenaceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 192,
@@ -103,7 +103,7 @@ export const dataTable: fruitType[] = [
         "genus": "Ananas",
         "family": "Bromeliaceae",
         "fruitOrder": "Poales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 193,
@@ -111,7 +111,7 @@ export const dataTable: fruitType[] = [
         "genus": "Cactaceae",
         "family": "Cactaceae",
         "fruitOrder": "Caryophyllales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 194,
@@ -119,7 +119,7 @@ export const dataTable: fruitType[] = [
         "genus": "Prunus",
         "family": "Rosaceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 195,
@@ -127,7 +127,7 @@ export const dataTable: fruitType[] = [
         "genus": "Punica",
         "family": "Lythraceae",
         "fruitOrder": "Myrtales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 196,
@@ -135,7 +135,7 @@ export const dataTable: fruitType[] = [
         "genus": "Rubus",
         "family": "Rosaceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 197,
@@ -143,7 +143,7 @@ export const dataTable: fruitType[] = [
         "genus": "Fragaria",
         "family": "Rosaceae",
         "fruitOrder": "Rosales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 198,
@@ -151,7 +151,7 @@ export const dataTable: fruitType[] = [
         "genus": "Citrus",
         "family": "Rutaceae",
         "fruitOrder": "Sapindales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 199,
@@ -159,7 +159,7 @@ export const dataTable: fruitType[] = [
         "genus": "Solanum",
         "family": "Solanaceae",
         "fruitOrder": "Solanales",
-        "isFavorite": false
+        "favorite": false
     },
     {
         "id": 200,
@@ -167,6 +167,6 @@ export const dataTable: fruitType[] = [
         "genus": "Citrullus",
         "family": "Cucurbitaceae",
         "fruitOrder": "Cucurbitales",
-        "isFavorite": false
+        "favorite": false
     }
 ]

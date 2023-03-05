@@ -1,4 +1,5 @@
 import {requestApi} from '../common/api'
+import {FruitI} from "../pages/FruitsPage";
 
 const directory = '/api/fruit';
 
@@ -22,9 +23,16 @@ export function searchFruits(search: any) {
     });
 }
 
-
-export function trys(search: any) {
-    return fruitApi('/bobil', {
+export function searchFavoriteFruits(search: any) {
+    return fruitApi('/search-favorite-fruits', {
         method: "POST",
+        body: JSON.stringify(search)
     });
+}
+
+export function updateFruit(fruit: FruitI){
+    return fruitApi('/update-fruit',{
+        method: "POST",
+        body: JSON.stringify(fruit)
+    })
 }

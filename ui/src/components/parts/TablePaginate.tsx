@@ -18,8 +18,9 @@ export default function TablePaginate(props: PropsI) {
 
     const changePerPage = (field: 'perPage' | 'page') => (e: any) => {
         let value: PagingVariations = e.target?.value ?? e;
-        pr(value)
-        onChange(field,value)
+
+        onChange(field, value)
+
 
     }
     const nextPrevPage = (toPage: 'prev' | 'next') => () => {
@@ -27,14 +28,14 @@ export default function TablePaginate(props: PropsI) {
 
         switch (toPage) {
             case "prev":
-                newPage = page > 0 ? page - 1 : page;
+                newPage = page > 1 ? page - 1 : page;
                 break;
             case "next":
                 newPage = page < pages ? page + 1 : page;
                 break;
         }
 
-        onChange('page',newPage)
+        onChange('page', newPage)
 
     }
     return (

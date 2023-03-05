@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import SearchField from "../components/SearchField";
 import fs from "./fruitsStyle.module.css";
-import {searchFruits, trys} from "../queries/fruits";
+import {searchFruits, updateFruit} from "../queries/fruits";
 import {pr} from "../common/utils";
 import {dataTable} from "../common/dataRemoveAfter";
 import TableNew, {ColumnI, SearchTParamsI} from "../components/Tablen/TableNew";
@@ -24,13 +24,14 @@ export interface FruitI {
     genus: string,
     family: string,
     fruitOrder: string
-    isFavorite: boolean
+    favorite: boolean
 }
 
-interface StateI {
+export interface StateI {
     search: string,
-    fruits: FruitI[],
-    refresh: boolean
+    refresh: boolean,
+    searchButton: boolean
+    // fruits: FruitI[],
 }
 
 export interface fruitType {
@@ -39,7 +40,7 @@ export interface fruitType {
     genus: string,
     family: string,
     fruitOrder: string,
-    isFavorite: boolean
+    favorite: boolean
 }
 
 
@@ -48,24 +49,9 @@ export default function FruitsPage() {
 
     const [state, setState] = useState<StateI>({
         search: '',
-        fruits: dataTable,
-        refresh: true
+        refresh: true,
+        searchButton: false
     });
-
-    useEffect(() => {
-        // searchFruits(state.search).then(response=>{
-        //     pr(response)
-        //     setState(prev=>({
-        //         ...prev
-        //     }))
-        //     }
-        // );
-        // searchFruits(state.search)
-        //     .then(result=>{
-        //         pr(result);
-        //     })
-
-    }, [])
 
 
     const searchFruitss = (params: SearchTParamsI): Promise<requestResult> => {
@@ -75,6 +61,7 @@ export default function FruitsPage() {
 
     const handleChange = (field: string) => (e: any) => {
 
+
         let value = e.target.value ?? e;
 
         setState(prev => ({
@@ -83,34 +70,19 @@ export default function FruitsPage() {
         }))
     }
 
-    const handleRowChange = (field: string, rowId: number) => (e: any) => {
+    const handleRowChange = (fruit: FruitI) => {
 
-        let value = e.target?.value ?? e;
-
-
-        setState(prev => {
-            let row = prev.fruits[rowId];
-            row = {
-                ...row,
-                [field as keyof FruitI]: value
-            };
-
-            prev.fruits[rowId] = row;
-            return ({
-                ...prev
-
-            })
-        })
+        pr('CHANGE ROW @@@@2222')
+        pr(fruit)
+        return updateFruit(fruit)
     }
 
     const onSearch = () => {
         pr('SEARCH FOR SHH')
         setState(prev => ({
             ...prev,
-            refresh: !prev.refresh
+            searchButton: !prev.searchButton
         }))
-        // searchFruitss()
-
     }
 
 
@@ -120,18 +92,18 @@ export default function FruitsPage() {
         {id: 'genus', text: 'genus'},
         {id: 'family', text: 'family'},
         {id: 'fruitOrder', text: 'fruitOrder'},
-        {id: 'favorite', text: 'favorite', type: "change", onClick: handleRowChange},
+        {id: 'favorite', text: 'favorite', type: "change"},
     ]
 
 
-    const {refresh, fruits} = state
+    const {refresh} = state
     return (
         <div>
             <h3 className={ls.linkGroup}> FRUITS 43</h3>
             <div className={fs.search}>
                 <SearchField onSubmit={onSearch} onChange={handleChange('search')} value={state.search}/>
                 <TableNew getTableData={searchFruitss} onRowChange={handleRowChange} refresh={refresh}
-                          columnsTypes={columnsTypes}/>
+                          columnsTypes={columnsTypes} searchButton={state.searchButton}/>
             </div>
 
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Common\CollectionTransformer;
 use App\Common\SearchDto;
+use App\Dto\FruitDto;
 use App\Service\FruitService;
 use App\Transformer\FruitTransformer;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,12 +32,8 @@ class FruitController extends BaseController
     #[Route('/bobil', name: 'bobil', methods: ['POST'])]
     public function searchFruits(SearchDto $dto): JsonResponse
     {
-//        $d = 12/0;
-        $result = $this->fruitService->searchFruits($dto);
-        $data = CollectionTransformer::getData($result, new FruitTransformer());
-
-        return new JsonResponse(['data' => $data]);
-
+//                $d = 12/0;
+        return $this->fruitService->searchFruits($dto);
     }
 
     #[Route('/bob', name: 'fruits.get', methods: ['GET'])]
@@ -47,23 +44,17 @@ class FruitController extends BaseController
     }
 
 
-    #[Route('/search-favorite-fruits', name: 'favorite-fruits.get', methods: ['GET'])]
-    public function searchFavoriteFruits()
+    #[Route('/update-fruit', methods: ['POST'])]
+    public function updateFruit(FruitDto $dto): JsonResponse
     {
-
+        return $this->fruitService->updateFruit($dto);
     }
 
-    #[Route('/set-favorite-fruit/{id}', name: 'favorite-fruits.get', methods: ['GET'])]
-    public function setFavoriteFruit($id)
+    #[Route('/search-favorite-fruits', methods: ['POST'])]
+    public function searchFavoriteFruits(SearchDto $dto)
     {
+        return $this->fruitService->searchFavoriteFruits($dto);
 
     }
-
-    #[Route('/unset-favorite-fruit/{id}', name: 'favorite-fruits.get', methods: ['GET'])]
-    public function unsetFavoriteFruit($id)
-    {
-
-    }
-
 
 }
