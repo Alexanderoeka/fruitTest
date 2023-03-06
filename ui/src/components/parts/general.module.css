@@ -25,14 +25,14 @@
     display: flex;
     width: 100%;
     height: 40px;
-    background-color: #ff12b3;
+    background-color: #607b67;
     justify-content: end;
     padding-right: 30px;
     box-sizing: border-box;
 }
 
 .paginateButton {
-    background-color: green;
+    background-color: #666d66;
     width: 50px;
     align-items: center;
     border: 2px solid black;
@@ -167,4 +167,8 @@
     padding: 3px;
     transform: rotate(45deg);
     position: relative;
+}
+
+
+.checkbox{
 }

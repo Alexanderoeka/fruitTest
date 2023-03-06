@@ -40,7 +40,6 @@ class FruitService
     {
         $count = $this->fruitRepository->countRows($dto->search);
         $pages = ceil($count / $dto->perPage);
-//        if()
         $offset = ($dto->page - 1) * $dto->perPage;
         $result = $this->fruitRepository->getFruitsWithPaging($dto->search, $dto->order, $dto->orderBy, $offset, $dto->perPage);
 
@@ -79,17 +78,6 @@ class FruitService
         $data = CollectionTransformer::getData($result, new FruitTransformer());
 
         return new JsonResponse(['data' => $data, 'success' => true, 'pagination' => $pagination]);
-    }
-
-
-    public function setFavoriteFruit($id)
-    {
-
-    }
-
-    public function unsetFavoriteFruit($id)
-    {
-
     }
 
     public function updateFruit(FruitDto $dto)

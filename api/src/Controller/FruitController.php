@@ -22,25 +22,11 @@ class FruitController extends BaseController
     }
 
 
-    #[Route('/show', name: 'show', methods: ['GET'])]
-    public function showFruit(): JsonResponse
-    {
-        $test = 1;
-        return new JsonResponse(['haha' => 'sereger']);
-    }
-
-    #[Route('/bobil', name: 'bobil', methods: ['POST'])]
+    #[Route('/search-fruits', methods: ['POST'])]
     public function searchFruits(SearchDto $dto): JsonResponse
     {
 //                $d = 12/0;
         return $this->fruitService->searchFruits($dto);
-    }
-
-    #[Route('/bob', name: 'fruits.get', methods: ['GET'])]
-    public function hui(SearchDto $dto): JsonResponse
-    {
-        return new JsonResponse(['qfe' => 'ewfwe']);
-//        return new JsonResponse(FruitTransformer::transform($this->fruitService->searchFruits($dto)));
     }
 
 
@@ -51,7 +37,7 @@ class FruitController extends BaseController
     }
 
     #[Route('/search-favorite-fruits', methods: ['POST'])]
-    public function searchFavoriteFruits(SearchDto $dto)
+    public function searchFavoriteFruits(SearchDto $dto): JsonResponse
     {
         return $this->fruitService->searchFavoriteFruits($dto);
 

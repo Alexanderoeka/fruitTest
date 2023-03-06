@@ -17,7 +17,7 @@ function fruitApi(uri: any, params?: any) {
 
 
 export function searchFruits(search: any) {
-    return fruitApi('/bobil', {
+    return fruitApi('/search-fruits', {
         method: "POST",
         body: JSON.stringify(search)
     });
@@ -30,8 +30,8 @@ export function searchFavoriteFruits(search: any) {
     });
 }
 
-export function updateFruit(fruit: FruitI){
-    return fruitApi('/update-fruit',{
+export function updateFruit(fruit: FruitI) {
+    return fruitApi('/update-fruit', {
         method: "POST",
         body: JSON.stringify(fruit)
     })

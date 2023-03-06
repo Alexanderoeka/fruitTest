@@ -29,9 +29,7 @@ export interface FruitI {
 
 export interface StateI {
     search: string,
-    refresh: boolean,
     searchButton: boolean
-    // fruits: FruitI[],
 }
 
 export interface fruitType {
@@ -49,21 +47,17 @@ export default function FruitsPage() {
 
     const [state, setState] = useState<StateI>({
         search: '',
-        refresh: true,
         searchButton: false
     });
 
 
-    const searchFruitss = (params: SearchTParamsI): Promise<requestResult> => {
+    const searchFruitsTable = (params: SearchTParamsI): Promise<requestResult> => {
         const {search} = state
         return searchFruits({...params, search});
     }
 
     const handleChange = (field: string) => (e: any) => {
-
-
         let value = e.target.value ?? e;
-
         setState(prev => ({
             ...prev,
             [field]: value
@@ -71,14 +65,10 @@ export default function FruitsPage() {
     }
 
     const handleRowChange = (fruit: FruitI) => {
-
-        pr('CHANGE ROW @@@@2222')
-        pr(fruit)
         return updateFruit(fruit)
     }
 
-    const onSearch = () => {
-        pr('SEARCH FOR SHH')
+    const handleSearch = () => {
         setState(prev => ({
             ...prev,
             searchButton: !prev.searchButton
@@ -96,14 +86,14 @@ export default function FruitsPage() {
     ]
 
 
-    const {refresh} = state
+    const {searchButton, search} = state
     return (
         <div>
-            <h3 className={ls.linkGroup}> FRUITS 43</h3>
+            <h3 className={ls.linkGroup}> FRUITS </h3>
             <div className={fs.search}>
-                <SearchField onSubmit={onSearch} onChange={handleChange('search')} value={state.search}/>
-                <TableNew getTableData={searchFruitss} onRowChange={handleRowChange} refresh={refresh}
-                          columnsTypes={columnsTypes} searchButton={state.searchButton}/>
+                <SearchField onSubmit={handleSearch} onChange={handleChange('search')} value={search}/>
+                <TableNew getTableData={searchFruitsTable} onRowChange={handleRowChange}
+                          columnsTypes={columnsTypes} searchButton={searchButton}/>
             </div>
 
 

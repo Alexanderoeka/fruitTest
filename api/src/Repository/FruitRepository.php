@@ -125,7 +125,6 @@ class FruitRepository extends ServiceEntityRepository
 
         if ($orderBy) {
             $orderBy = $this->getClassMetadata()->getColumnName($orderBy);
-//            $orderBy = 'fefeqfeq';
             $orderClause = " order by $orderBy $order ";
         }
 
@@ -148,7 +147,6 @@ class FruitRepository extends ServiceEntityRepository
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
         $rsm->addRootEntityFromClassMetadata(Fruit::class, 'f');
 
-//        $d = 12/0;
 
 
         $query = $this->_em->createNativeQuery($sql, $rsm);

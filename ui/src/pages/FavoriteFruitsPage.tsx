@@ -13,12 +13,11 @@ export default function FavoriteFruitsPage() {
 
     const [state, setState] = useState<StateI>({
         search: '',
-        refresh: true,
         searchButton: false
     });
 
 
-    const searchFruitss = (params: SearchTParamsI): Promise<requestResult> => {
+    const searchFruitsTable = (params: SearchTParamsI): Promise<requestResult> => {
         const {search} = state
         return searchFavoriteFruits({...params, search});
     }
@@ -35,14 +34,10 @@ export default function FavoriteFruitsPage() {
     }
 
     const handleRowChange = (fruit: FruitI) => {
-
-        pr('CHANGE ROW @@@@2222')
-        pr(fruit)
         return updateFruit(fruit)
     }
 
     const onSearch = () => {
-        pr('SEARCH FOR SHH')
         setState(prev => ({
             ...prev,
             searchButton: !prev.searchButton
@@ -60,14 +55,14 @@ export default function FavoriteFruitsPage() {
     ]
 
 
-    const {refresh} = state
+    const {searchButton} = state
     return (
         <div>
             <h3 className={ls.linkGroup}>FAVORITE</h3>
             <div className={fs.search}>
                 <SearchField onSubmit={onSearch} onChange={handleChange('search')} value={state.search}/>
-                <TableNew getTableData={searchFruitss} onRowChange={handleRowChange} refresh={refresh}
-                          columnsTypes={columnsTypes} searchButton={state.searchButton}/>
+                <TableNew getTableData={searchFruitsTable} onRowChange={handleRowChange}
+                          columnsTypes={columnsTypes} searchButton={searchButton}/>
             </div>
 
 

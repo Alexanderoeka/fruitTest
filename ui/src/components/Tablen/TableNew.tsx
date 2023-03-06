@@ -31,7 +31,6 @@ export interface SearchTParamsI {
 export interface propsI {
     getTableData: (params: SearchTParamsI) => Promise<requestResult>,
     columnsTypes: ColumnI[],
-    refresh?: boolean,
     searchButton: boolean,
     search?: string | null,
     onRowChange: (fruit: FruitI) => Promise<requestResult>
@@ -39,14 +38,14 @@ export interface propsI {
 
 
 export default function TableNew(props: propsI) {
-    const {getTableData, columnsTypes, refresh, searchButton, onRowChange} = props
+    const {getTableData, columnsTypes, searchButton, onRowChange} = props
 
     const [state, setState] = useState<SearchTableI>({
         page: 1,
         pages: 1,
         perPage: 10,
         order: 'asc',
-        orderBy: null,
+        orderBy: columnsTypes[0].id,
         rows: 0,
         tableData: [],
         refreshLocal: false
@@ -54,7 +53,7 @@ export default function TableNew(props: propsI) {
 
     useEffect(() => {
         getDataTable();
-    }, [refresh, state.refreshLocal])
+    }, [ state.refreshLocal])
 
     useEffect(() => {
         handleChange('page', 1, false)
@@ -72,7 +71,6 @@ export default function TableNew(props: propsI) {
             order,
             orderBy
         }
-
         getTableData(params).then(response => {
                 pr(response);
                 setState(prev => ({
@@ -88,9 +86,7 @@ export default function TableNew(props: propsI) {
 
     const handleRowChange = (field: string, rowId: number) => (e: any) => {
 
-        pr('CHANGE ROW')
         let value = e.target?.value ?? e;
-
         let changedRow = {...state.tableData[rowId]}
         changedRow[field] = value
 
@@ -117,9 +113,6 @@ export default function TableNew(props: propsI) {
     }
 
     const handleChange = (field: string, value: any, isRefresh: boolean = true) => {
-        pr("field")
-        pr(field)
-        pr(value)
         switch (field) {
             case 'perPage':
                 let selection = (page - 1) * value;
@@ -136,15 +129,6 @@ export default function TableNew(props: propsI) {
             refreshAction();
     }
 
-    useEffect(() => {
-        // getTableData()
-    }, [refresh, state.order, state.orderBy])
-
-
-    // const handleChangeRow = (rowId: number) => (colId: string, newValue: any) => {
-    //
-    //     getTableData();
-    // }
 
     const orderByColumn = (orderBy: string) => () => {
 
@@ -165,8 +149,8 @@ export default function TableNew(props: propsI) {
             <div className={g.tableScroll}>
                 <table className={g.tableBeauty}>
                     <thead>
-                    <TableHeaderN columnsTypes={columnsTypes} orderByColumn={orderByColumn} order={state.order}
-                                  orderBy={state.orderBy}/>
+                    <TableHeaderN columnsTypes={columnsTypes} orderByColumn={orderByColumn} order={order}
+                                  orderBy={orderBy}/>
                     </thead>
                     <tbody>
                     {tableData.map((row: any, idx) => {
