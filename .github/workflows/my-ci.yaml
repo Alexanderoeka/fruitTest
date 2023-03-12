@@ -25,8 +25,15 @@ jobs:
           echo "Message TWO"
           ls
           echo "Print THIS ${{env.APPLICATION_NAME}}"
-      - name: Where am I
+      - name: Where am I 1
         run : ls -la
+        
+      - name : Git clone
+        uses: actions/checkout@v1
+        
+        
+      - name: Where am I 2
+        run: ls -la
         
   
   my-deploy:
@@ -35,3 +42,8 @@ jobs:
     steps:
       - name: Print Hello Message in Deploy
         run: echo "Hello WORDL DEPLOY JOB"
+        
+      - name: Where am I 2
+        run: ls -la
+      - name: ZIP VERSION
+        run: zip
