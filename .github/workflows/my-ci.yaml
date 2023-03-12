@@ -24,6 +24,7 @@ jobs:
           echo "Message ONE"
           echo "Message TWO"
           ls
+          echo "Print THIS ${{env.APPLICATION_NAME}}"
   
   my-deploy:
     runs-on: ubuntu-latest
