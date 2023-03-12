@@ -26,7 +26,7 @@ jobs:
           ls
           echo "Print THIS ${{env.APPLICATION_NAME}}"
       - name: Where am I
-        run : ls 
+        run : ls -la
         
   
   my-deploy:
