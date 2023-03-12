@@ -13,11 +13,12 @@ jobs:
   my-testing:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Hello World
+      - name: Print Hello Message in Testing
         run: echo "Hello WORDL"
   
   my-deploy:
     runs-on: ubuntu-latest
+    needs: [my-testing]
     steps:
-      - name: Print Hello World
+      - name: Print Hello Message in Deploy
         run: echo "Hello WORDL DEPLOY JOB"
