@@ -1,0 +1,21 @@
+#-------
+
+
+name: myCIActions
+
+on: 
+  push:
+    branches: 
+      - master
+jobs:
+  my-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello World
+      - run: echo "Hello WORDL"
+  
+  
+  my-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello WORDL DEPLOY JOB"
