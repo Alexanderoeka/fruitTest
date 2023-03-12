@@ -2,6 +2,9 @@
 
 
 name: myCIActions
+env:
+  APPLICATION_NAME: MyNameFruit
+  PACKAGE_NAME: "CHTO_TO_TAM: ${{github.sha}}"
 
 on: 
   push:
@@ -15,6 +18,12 @@ jobs:
     steps:
       - name: Print Hello Message in Testing
         run: echo "Hello WORDL"
+        
+      - name: Execute few commands
+        run: |
+          echo "Message ONE"
+          echo "Message TWO"
+          ls
   
   my-deploy:
     runs-on: ubuntu-latest
