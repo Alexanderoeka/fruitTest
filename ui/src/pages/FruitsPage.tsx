@@ -89,7 +89,7 @@ export default function FruitsPage() {
     const {searchButton, search} = state
     return (
         <div>
-            <h3 className={ls.linkGroup}> FRUITS </h3>
+            <h3 className={ls.linkGroup}> FRUITS DEPLOYED 1 </h3>
             <div className={fs.search}>
                 <SearchField onSubmit={handleSearch} onChange={handleChange('search')} value={search}/>
                 <TableNew getTableData={searchFruitsTable} onRowChange={handleRowChange}
