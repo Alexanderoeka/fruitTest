@@ -1,4 +1,5 @@
-const address = 'http://localhost';
+const address = 'http://34.77.97.231';
+// const address = 'http://localhost';
 
 export interface PaginationI {
     page: number,
